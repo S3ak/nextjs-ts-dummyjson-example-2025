@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Summary
+
+[Remote](https://github.com/S3ak/nextjs-ts-dummyjson-example-2025)
+
 ## Getting Started
 
 First, run the development server:
