@@ -17,8 +17,8 @@ export default async function Posts() {
     <div>
       Posts
       <section>
-        {posts.map(({ title }) => (
-          <PostUI key={title} title={title} />
+        {posts.map(({ title, id, reactions }) => (
+          <PostUI key={id} title={title} reactions={reactions} id={id} />
         ))}
       </section>
     </div>
