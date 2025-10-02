@@ -1,27 +1,45 @@
 "use client";
 
-// import Image from "next/image";
-import type { Post } from "@/types";
 import Link from "next/link";
+// import Image from "next/image";
+import { faker } from "@faker-js/faker";
 
-export default function Post({ title = "", body = "", reactions, id }: Post) {
+interface PostI {
+  likes: number;
+  title: string;
+  body: string;
+  id: number;
+}
+
+export default function PostUI({
+  title = "",
+  body = "",
+  likes = 0,
+  id,
+}: PostI) {
   return (
     <div className="shadow-sm card bg-base-100 w-96">
       <Link href={`/posts/${id}`}>
-        <figure>
-          <img src="https://picsum.photos/200" alt="Shoes" />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">{title}</h2>
-          <p>{body}</p>
-          <div className="justify-end card-actions">
-            <button className="btn btn-primary">
-              Like {reactions.likes ?? 0}
-            </button>
+        <article className="overflow-hidden transition rounded-lg shadow-sm hover:shadow-lg">
+          <figure>
+            <img
+              alt="Post image"
+              src={faker.image.url()}
+              className="object-cover w-full h-56"
+            />
+          </figure>
+
+          <div className="p-4 bg-white sm:p-6">
+            <p className="block text-xs text-gray-500">❤️ {likes}</p>
+
+            <h3 className="mt-0.5 text-lg text-gray-900">{title}</h3>
+
+            <p className="mt-2 text-gray-500 line-clamp-3 text-sm/relaxed">
+              {body}
+            </p>
           </div>
-        </div>
+        </article>
       </Link>
-      <hr />
     </div>
   );
 }
