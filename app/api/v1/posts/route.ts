@@ -1,5 +1,4 @@
 import { PostResponse } from "@/lib/types";
-import { faker } from "@faker-js/faker";
 
 export async function GET(request: Request) {
   const response = await fetch("https://dummyjson.com/posts");
@@ -11,7 +10,9 @@ export async function GET(request: Request) {
 
   const formattedPosts = data.posts.map((post) => ({
     ...post,
-    img: faker.image.url(),
+    img: `https://picsum.photos/200/300?random=${Math.floor(
+      Math.random() * 10000
+    )}`,
   }));
 
   return Response.json({

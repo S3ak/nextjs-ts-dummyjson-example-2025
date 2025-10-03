@@ -13,6 +13,7 @@ export interface Post {
   title: string;
   userId: number;
   views: number;
+  img: string;
 }
 
 export interface Reactions {

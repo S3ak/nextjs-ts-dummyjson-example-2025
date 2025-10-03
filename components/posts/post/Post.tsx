@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 // import Image from "next/image";
-import { faker } from "@faker-js/faker";
 
 interface PostI {
   likes: number;
   title: string;
   body: string;
   id: number;
+  imgUrl: string;
 }
 
 export default function PostUI({
@@ -16,6 +16,7 @@ export default function PostUI({
   body = "",
   likes = 0,
   id,
+  imgUrl = "",
 }: PostI) {
   return (
     <div className="shadow-sm card bg-base-100 w-96">
@@ -24,7 +25,7 @@ export default function PostUI({
           <figure>
             <img
               alt="Post image"
-              src={faker.image.url()}
+              src={imgUrl}
               className="object-cover w-full h-56"
             />
           </figure>
