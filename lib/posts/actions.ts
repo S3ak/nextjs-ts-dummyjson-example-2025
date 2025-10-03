@@ -1,13 +1,44 @@
 "use server";
 
-export async function createPost(formData: FormData) {
-  "use server";
+import { z } from "zod";
 
-  const rawFormData = {
-    customerId: formData.get("title"),
-    amount: formData.get("body"),
-    status: formData.get("img"),
-  };
+const createPostSchema = z.object({
+  title: z
+    .string()
+    .min(2, { message: "Too Short" })
+    .max(30, { message: "Too long" }),
+  body: z
+    .string()
+    .min(2, { message: "Too Short" })
+    .max(30, { message: "Too long" }),
+  img: z.url(),
+  tags: z.string(),
+});
 
-  console.info("rawFormData", rawFormData);
+export async function createPost(initialState: any, formData: FormData) {
+  console.warn("formData", formData);
+  const tags =
+    formData
+      .get("tags")
+      ?.toString()
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0) || [];
+
+  const validatedFields = createPostSchema.safeParse({
+    title: formData.get("title"),
+    body: formData.get("body"),
+    userId: 1,
+    tags: tags,
+    img: formData.get("img"),
+  });
+
+  // Return early if the form data is invalid
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  console.log("Post data:", validatedFields);
 }
