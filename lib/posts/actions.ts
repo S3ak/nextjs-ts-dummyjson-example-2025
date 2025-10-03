@@ -1,5 +1,6 @@
 "use server";
 
+import { initialCreatePostFormStateI } from "@/components/posts/create-post/CreatePostForm";
 import { z } from "zod";
 
 const createPostSchema = z.object({
@@ -12,10 +13,13 @@ const createPostSchema = z.object({
     .min(2, { message: "Too Short" })
     .max(30, { message: "Too long" }),
   img: z.url(),
-  tags: z.string(),
+  tags: z.array(z.string()),
 });
 
-export async function createPost(initialState: any, formData: FormData) {
+export async function createPost(
+  _initialState: initialCreatePostFormStateI,
+  formData: FormData
+) {
   console.warn("formData", formData);
   const tags =
     formData

@@ -2,20 +2,42 @@
 
 import { useActionState } from "react";
 import { createPost } from "@/lib/posts/actions";
+import { z } from "zod";
 
-const initialState = {
+const createPostSchema = z.object({
+  title: z
+    .string()
+    .min(2, { message: "Too Short" })
+    .max(30, { message: "Too long" }),
+  body: z
+    .string()
+    .min(2, { message: "Too Short" })
+    .max(30, { message: "Too long" }),
+  img: z.url(),
+  tags: z.string(),
+});
+
+export type initialCreatePostFormStateI = z.infer<typeof createPostSchema>;
+
+const dummyInitialState: initialCreatePostFormStateI = {
   title: "Sample Post Title for Testing",
   body: "This is a sample post content for testing purposes. It contains enough characters to meet the minimum requirement and provides a good example of what a typical post might look like. You can modify this content or replace it entirely with your own text.",
   img: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&h=600&fit=crop",
   tags: "web development, react, nextjs, typescript",
 };
 
+const initialState: initialCreatePostFormStateI = {
+  title: "",
+  body: "",
+  img: "",
+  tags: "",
+};
+
 export default function CreatePostForm() {
   const [state, formAction, pending] = useActionState(createPost, initialState);
-  console.log("state", state);
+
   return (
     <form className="space-y-6" action={formAction}>
-      <p aria-live="polite">{state?.message}</p>
       <strong>Is form submitting: {pending ? "true" : "false"}</strong>
       {/* Title Field */}
       <div>
@@ -25,6 +47,7 @@ export default function CreatePostForm() {
         >
           Title *
         </label>
+        <small className="text-red-700">{state?.errors?.title}</small>
         <input
           type="text"
           id="title"
@@ -39,7 +62,6 @@ export default function CreatePostForm() {
         <small className="text-gray-500">
           Minimum 5 characters, maximum 100 characters
         </small>
-        <small className="text-red-700">{state?.errors?.title}</small>
       </div>
 
       {/* Body Field */}
