@@ -3,7 +3,7 @@ import PostUI from "@/components/posts/post/Post";
 import ErrorUI from "@/components/error";
 
 export default async function Posts() {
-  const response = await fetch("https://dummyjson.com/posts");
+  const response = await fetch("http://localhost:3000/api/v1/posts");
   const { posts }: PostResponse = await response.json();
 
   if (!response.ok) {
